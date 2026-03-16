@@ -4,6 +4,7 @@ Welcome to our shared bash configuration repository! This is a place where frien
 
 ## Repository Structure
 
+```
 bash-configs/
 ├── users/
 │   ├── alice/
