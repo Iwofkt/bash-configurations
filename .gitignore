@@ -1,0 +1,54 @@
+# Backup and temporary files
+*~
+*.swp
+*.swo
+*.tmp
+*.temp
+*.bak
+
+# Editor directories and files
+.vscode/
+.idea/
+*.sublime-*
+*.sublime-workspace
+*.sublime-project
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+*.lnk
+
+# Shell history and secrets
+.bash_history
+.bash_logout
+.zsh_history
+.zhistory
+.fish_history
+*.secret
+*.private
+*.key
+*.pem
+*.crt
+
+# Python cache (if any scripts use python)
+__pycache__/
+*.pyc
+
+# Log files
+*.log
+
+# Local configuration (not to be shared)
+.local/
+.config/local/
+
+# Vim swap files (more comprehensive)
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
