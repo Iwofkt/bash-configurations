@@ -40,22 +40,17 @@ info() {
 
 safe_remove_symlink() {
     local link="$1"
-    if [ -L "$link" ]; then
+
+    if [[ -L "$link" ]]; then
         local target
-        target="$(readlink "$link")"
-        if [[ "$target" == "$USERS_DIR"* ]] || [[ "$target" == *"$USERS_DIR"* ]]; then
+        target=$(readlink "$link")
+
+        if [[ "$target" == *"$USERS_DIR"* ]]; then
             rm -f "$link"
             echo "  Removed symlink $link -> $target"
-            return 0
         else
-            warn "Skipping $link – it points outside the repo ($target)"
-            return 1
+            warn "Skipping $link – outside repo ($target)"
         fi
-    elif [ -e "$link" ]; then
-        warn "Skipping $link – it's a real file/directory (not a symlink)"
-        return 1
-    else
-        return 1
     fi
 }
 

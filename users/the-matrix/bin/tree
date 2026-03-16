@@ -1,0 +1,51 @@
+#!/usr/bin/env python3
+import os
+import sys
+from pathlib import Path
+
+def tree(dir_path, prefix='', show_hidden=False, max_depth=None, current_depth=0):
+    if max_depth is not None and current_depth > max_depth:
+        return
+    
+    try:
+        path = Path(dir_path)
+        contents = sorted(path.iterdir())
+        
+        # Filter files if needed
+        if not show_hidden:
+            contents = [x for x in contents if not x.name.startswith('.')]
+            
+    except PermissionError:
+        print(f"{prefix}└── [Permission Denied]")
+        return
+    
+    for i, item in enumerate(contents):
+        is_last = (i == len(contents) - 1)
+        current_prefix = '└── ' if is_last else '├── '
+        
+        # Add indicators for directories
+        if item.is_dir():
+            print(f"{prefix}{current_prefix}{item.name}/")
+            extension = '    ' if is_last else '│   '
+            tree(item, prefix + extension, show_hidden, max_depth, current_depth + 1)
+        else:
+            # Show file size for regular files
+            size = item.stat().st_size
+            if size < 1024:
+                size_str = f"{size}B"
+            elif size < 1024**2:
+                size_str = f"{size/1024:.1f}KB"
+            else:
+                size_str = f"{size/1024**2:.1f}MB"
+            print(f"{prefix}{current_prefix}{item.name} ({size_str})")
+
+if __name__ == '__main__':
+    import argparse
+    parser = argparse.ArgumentParser(description='Tree command in Python')
+    parser.add_argument('path', nargs='?', default='.', help='Directory to tree')
+    parser.add_argument('-a', '--all', action='store_true', help='Show hidden files')
+    parser.add_argument('-L', '--depth', type=int, help='Max display depth')
+    
+    args = parser.parse_args()
+    print(args.path)
+    tree(args.path, show_hidden=args.all, max_depth=args.depth)
